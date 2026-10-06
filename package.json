@@ -1,0 +1,23 @@
+{
+  "name": "atelier-porte-cles",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild src/app.js --bundle --minify --outfile=app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "clipper-lib": "^6.4.2",
+    "esbuild": "^0.28.2",
+    "opentype.js": "^2.0.0"
+  },
+  "private": true,
+  "devDependencies": {
+    "@napi-rs/canvas": "^1.0.10",
+    "jsdom": "^30.1.2"
+  }
+}
