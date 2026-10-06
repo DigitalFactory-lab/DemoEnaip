@@ -13,7 +13,9 @@
   "dependencies": {
     "clipper-lib": "^6.4.2",
     "esbuild": "^0.28.2",
-    "opentype.js": "^2.0.0"
+    "jspdf": "^4.2.1",
+    "opentype.js": "^2.0.0",
+    "svg2pdf.js": "^2.8.1"
   },
   "private": true,
   "devDependencies": {
