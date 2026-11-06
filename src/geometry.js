@@ -1,23 +1,9 @@
+import {STICKER_MOTIFS} from './sticker-motifs.js';
 import opentype from 'opentype.js';
 import ClipperLib from 'clipper-lib';
 export const FONT_FILES={shorebreak:"assets/shorebreak.otf",superwaffles:"assets/superwaffles.ttf",gemstone:"assets/gemstone.ttf",fatkat:"assets/fatkat.ttf",monttee:"assets/monttee.otf",anakbaik:"assets/anakbaik.otf"};
 export const MATERIALS={white:{name:'Plexi blanc',fill:'#ffffff'},black:{name:'Plexi noir',fill:'#17191c'},wood:{name:'Bois clair',fill:'url(#material-wood)'}};
-export const MOTIFS={
- none:{name:'Aucun',d:''},
- star:{name:'Étoile',d:'M50 2 L62 35 L98 36 L70 58 L80 94 L50 74 L20 94 L30 58 L2 36 L38 35 Z'},
- heart:{name:'Cœur',d:'M50 94 C35 80 4 58 4 30 C4 3 36 -1 50 22 C64 -1 96 3 96 30 C96 58 65 80 50 94 Z'},
- crown:{name:'Couronne',d:'M9 83 L2 20 L29 44 L50 4 L71 44 L98 20 L91 83 Z'},
- skull:{name:'Crâne',d:'M20 68 C-10 54 -1 1 50 1 C101 1 110 54 80 68 L80 93 H66 V81 H58 V93 H43 V81 H35 V93 H20 Z',cutouts:'M40 44 A12 13 0 1 1 16 44 A12 13 0 1 1 40 44 Z M84 44 A12 13 0 1 1 60 44 A12 13 0 1 1 84 44 Z M50 57 L41 70 H59 Z'},
- bolt:{name:'Éclair',d:'M47 0 H85 L61 36 H90 L23 100 L40 57 H10 Z'},
- robot:{name:'Robot',d:'M22 30 H44 V19 C34 13 41 2 50 2 C59 2 66 13 56 19 V30 H78 Q86 30 86 38 V45 H94 V66 H86 V78 Q86 86 78 86 H22 Q14 86 14 78 V66 H6 V45 H14 V38 Q14 30 22 30 Z',cutouts:'M27 44 H39 V58 H27 Z M61 44 H73 V58 H61 Z M31 68 H69 V76 H31 Z'},
- gamepad:{name:'Manette',d:'M31 25 H69 C83 25 88 35 91 48 L98 80 C101 94 89 99 81 89 L65 73 H35 L19 89 C11 99 -1 94 2 80 L9 48 C12 35 17 25 31 25 Z',cutouts:'M23 39 H31 V47 H39 V55 H31 V63 H23 V55 H15 V47 H23 Z M70 44 C70 37 80 37 80 44 C80 51 70 51 70 44 Z M81 57 C81 50 91 50 91 57 C91 64 81 64 81 57 Z'},
- flame:{name:'Flamme',d:'M52 2 C58 24 80 28 75 50 C84 45 88 33 88 33 C111 62 90 98 53 98 C17 98 -2 77 9 54 C17 37 33 35 31 17 C41 24 44 33 43 41 C58 30 47 16 52 2 Z',cutouts:'M53 51 C58 64 72 68 67 79 C62 93 41 92 34 80 C28 68 43 64 53 51 Z'},
- sparkle:{name:'Étoile à quatre branches',d:'M50 2 C55 36 64 45 98 50 C64 55 55 64 50 98 C45 64 36 55 2 50 C36 45 45 36 50 2 Z'},
- headphones:{name:'Casque audio',d:'M8 47 C8 -8 92 -8 92 47 V85 Q92 94 83 94 H73 Q64 94 64 85 V56 Q64 47 73 47 H80 C80 10 20 10 20 47 H27 Q36 47 36 56 V85 Q36 94 27 94 H17 Q8 94 8 85 Z'},
- cat:{name:'Chat',d:'M15 40 L10 7 L37 25 C45 23 55 23 63 25 L90 7 L85 40 C105 80 81 97 50 97 C19 97 -5 80 15 40 Z',cutouts:'M17 53 Q27 42 37 53 Q27 64 17 53 Z M63 53 Q73 42 83 53 Q73 64 63 53 Z M44 70 H56 L50 79 Z'},
- paw:{name:'Patte d’animal',d:'M22 43 C10 43 8 22 17 18 C27 14 34 35 22 43 Z M42 35 C28 34 25 8 37 5 C50 2 54 31 42 35 Z M58 35 C46 31 50 2 63 5 C75 8 72 34 58 35 Z M78 43 C66 35 73 14 83 18 C92 22 90 43 78 43 Z M50 42 C36 42 35 55 26 64 C7 89 24 102 43 89 Q50 85 57 89 C76 102 93 89 74 64 C65 55 64 42 50 42 Z'},
- mountain:{name:'Montagne',d:'M2 91 L32 27 L50 55 L68 8 L98 91 Z',cutouts:'M26 47 L32 35 L42 52 L33 47 L29 51 Z M58 41 L68 18 L79 49 L68 39 L64 45 Z'}
-};
+export const MOTIFS={none:{name:'Aucun',d:''},...STICKER_MOTIFS};
 const S=1000;
 const toInt=p=>({X:Math.round(p.x*S),Y:Math.round(p.y*S)});
 function flatten(commands){let paths=[],p=[],cur={x:0,y:0},start;const add=q=>{p.push(toInt(q));cur=q;};for(const c of commands){if(c.type==='M'){if(p.length>2)paths.push(p);p=[];add({x:c.x,y:c.y});start=cur;}else if(c.type==='L')add({x:c.x,y:c.y});else if(c.type==='C'||c.type==='Q'){const from=cur;const len=Math.hypot(c.x-from.x,c.y-from.y)+Math.hypot(c.x1-from.x,c.y1-from.y)+(c.type==='C'?Math.hypot(c.x2-c.x,c.y2-c.y):0);const n=Math.max(6,Math.ceil(len/.16));for(let i=1;i<=n;i++){let t=i/n,u=1-t;add(c.type==='C'?{x:u*u*u*from.x+3*u*u*t*c.x1+3*u*t*t*c.x2+t*t*t*c.x,y:u*u*u*from.y+3*u*u*t*c.y1+3*u*t*t*c.y2+t*t*t*c.y}:{x:u*u*from.x+2*u*t*c.x1+t*t*c.x,y:u*u*from.y+2*u*t*c.y1+t*t*c.y});}}else if(c.type==='Z'){if(p.length>2)paths.push(p);p=[];cur=start;}}if(p.length>2)paths.push(p);return paths;}
