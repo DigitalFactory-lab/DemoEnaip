@@ -1,7 +1,7 @@
 import {STICKER_MOTIFS} from './sticker-motifs.js';
 import opentype from 'opentype.js';
 import ClipperLib from 'clipper-lib';
-export const FONT_FILES={"bagelfatone": "assets/bagelfatone.ttf", "modak": "assets/modak.ttf", "bowlbyonesc": "assets/bowlbyonesc.ttf", "permanentmarker": "assets/permanentmarker.ttf", "rubikspraypaint": "assets/rubikspraypaint.ttf", "bricolagegrotesque": "assets/bricolagegrotesque.ttf"};
+export const FONT_FILES={"bagelfatone": "assets/bagelfatone.ttf", "modak": "assets/modak.ttf", "bowlbyonesc": "assets/bowlbyonesc.ttf", "bricolagegrotesque": "assets/bricolagegrotesque.ttf"};
 export const MATERIALS={white:{name:'Plexi blanc',fill:'#ffffff'},black:{name:'Plexi noir',fill:'#17191c'},wood:{name:'Bois clair',fill:'url(#material-wood)'}};
 export const MOTIFS={none:{name:'Aucun',d:''},...STICKER_MOTIFS};
 const S=1000;
@@ -30,8 +30,22 @@ if(rows.length>1){
   top+=row.bb.y2-row.bb.y1+(config.lineGap??size*.18);
  }
 }
-let glyphs=flatten(path.commands);let bb=bounds(glyphs);let tx=-bb.x1,ty=-bb.y1;glyphs=glyphs.map(p=>p.map(q=>({X:q.X+Math.round(tx*S),Y:q.Y+Math.round(ty*S)})));const textW=bb.x2-bb.x1,textH=bb.y2-bb.y1;if(config.font==='rubikspraypaint'){glyphs=ClipperLib.Clipper.CleanPolygons(glyphs,.04*S).filter(p=>Math.abs(ClipperLib.Clipper.Area(p))>.02*S*S);}let solid=offset(exteriors(glyphs),config.border),art=[`<path fill="${config.textColor}" d="${path.toPathData(4)}" transform="translate(${tx} ${ty})"/>`];let x=textW;for(const item of config.decorations){if(item.shape==='none')continue;x+=item.gap??config.border*.6;const motif=MOTIFS[item.shape],w=Math.max(7,textH*.92)*item.size/100,y=(textH-w)/2;const contours=svgToContours(motif.d).map(p=>p.map(q=>({X:Math.round((q.X/S*w/100+x)*S),Y:Math.round((q.Y/S*w/100+y)*S)})));solid.push(...offset(exteriors(contours),config.border));art.push(`<g transform="translate(${x} ${y}) scale(${w/100})"><path d="${motif.d} ${motif.cutouts||''}" fill="${item.color}" fill-rule="evenodd"/>${motif.detail?`<path d="${motif.detail}" fill="${config.textColor}"/>`:''}</g>`);x+=w;}
-const hole={x:-config.border-config.hole/2,y:textH/2,r:config.hole/2};solid.push(circle(hole.x,hole.y,hole.r+config.border));const connected=connect(solid,Math.max(2,config.border*1.5));const b=bounds(connected);return {outer:connected[0],art:art.join(''),hole,bounds:b,width:b.x2-b.x1,height:b.y2-b.y1,fontHeight:lineHeight};}
+let glyphs=flatten(path.commands);let bb=bounds(glyphs);let tx=-bb.x1,ty=-bb.y1;glyphs=glyphs.map(p=>p.map(q=>({X:q.X+Math.round(tx*S),Y:q.Y+Math.round(ty*S)})));const textW=bb.x2-bb.x1,textH=bb.y2-bb.y1;let solid=offset(exteriors(glyphs),config.border),art=[`<path fill="${config.textColor}" d="${path.toPathData(4)}" transform="translate(${tx} ${ty})"/>`];let right=textW,left=0;
+for(const item of config.decorations){
+ if(item.shape==='none')continue;
+ const motif=MOTIFS[item.shape],w=Math.max(7,textH*.92)*item.size/100,y=(textH-w)/2,gap=item.gap??config.border*.6;
+ const position=item.position||'right';
+ if(!['left','right','both'].includes(position))throw Error('Choisis la position du motif.');
+ const placements=[];
+ if(position==='left'||position==='both'){left-=gap+w;placements.push(left);}
+ if(position==='right'||position==='both'){right+=gap;placements.push(right);right+=w;}
+ for(const x of placements){
+  const contours=svgToContours(motif.d).map(p=>p.map(q=>({X:Math.round((q.X/S*w/100+x)*S),Y:Math.round((q.Y/S*w/100+y)*S)})));
+  solid.push(...offset(exteriors(contours),config.border));
+  art.push(`<g data-motif="${item.shape}" transform="translate(${x} ${y}) scale(${w/100})"><path d="${motif.d} ${motif.cutouts||''}" fill="${item.color}" fill-rule="evenodd"/>${motif.detail?`<path d="${motif.detail}" fill="${config.textColor}"/>`:''}</g>`);
+ }
+}
+const hole={x:left-config.border-config.hole/2,y:textH/2,r:config.hole/2};solid.push(circle(hole.x,hole.y,hole.r+config.border));const connected=connect(solid,Math.max(2,config.border*1.5));const b=bounds(connected);return {outer:connected[0],art:art.join(''),hole,bounds:b,width:b.x2-b.x1,height:b.y2-b.y1,fontHeight:lineHeight};}
 export function buildGeometry(config,font){validate(config,font);let size=20,g;for(let i=0;i<8;i++){g=generate(config,font,size);if(Math.abs(g.width-config.width)<.003)break;size*=Math.max(.35,Math.min(2.5,(config.width-(config.hole+config.border*3))/(g.width-(config.hole+config.border*3))));}if(g.fontHeight<4)throw Error('Les lettres seraient trop petites. Augmente la largeur ou raccourcis le texte.');const shift={x:-g.bounds.x1,y:-g.bounds.y1};let d=g.outer.map((p,i)=>`${i?'L':'M'}${(p.X/S+shift.x).toFixed(3)} ${(p.Y/S+shift.y).toFixed(3)}`).join(' ')+' Z';return {...g,shift,d,material:config.material||'white',width:+g.width.toFixed(3),height:+g.height.toFixed(3)};}
 function holePath(g){const x=g.hole.x+g.shift.x,y=g.hole.y+g.shift.y,r=g.hole.r;return `M ${x+r} ${y} A ${r} ${r} 0 1 0 ${x-r} ${y} A ${r} ${r} 0 1 0 ${x+r} ${y} Z`;}
 function materialDefs(material){if(material!=='wood')return '';return `<defs><filter id="material-grain"><feTurbulence type="fractalNoise" baseFrequency="0.025 0.8" numOctaves="2" seed="7"/><feColorMatrix type="saturate" values="0"/></filter><pattern id="material-wood" patternUnits="userSpaceOnUse" width="100" height="35"><rect width="100" height="35" fill="#dfbf91"/><rect width="100" height="35" filter="url(#material-grain)" opacity="0.12"/><g fill="none" stroke="#ac7c45" stroke-width="0.12" opacity="0.22"><path d="M0 3 Q22 1 48 3 T100 2 M0 8 Q30 5 52 8 T100 7 M0 14 Q18 12 44 14 T100 15 M0 20 Q33 18 70 21 T100 20 M0 27 Q22 24 59 27 T100 26 M0 32 Q40 30 65 33 T100 32"/></g></pattern></defs>`;}
