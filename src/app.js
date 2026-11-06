@@ -1,7 +1,7 @@
 import {jsPDF} from 'jspdf';
 import 'svg2pdf.js';
 import {FONT_FILES,MOTIFS,MATERIALS,parseFont,buildGeometry,svgDocument} from './geometry.js';
-const $=id=>document.getElementById(id);const initial=()=>({text:'DigiFactory',font:'gemstone',material:'black',textColor:'#ffffff',lineGap:2,width:80,border:2.5,hole:4,decorations:[{shape:'flame',color:'#ff3a30',size:90,gap:1.5}]});let config=initial(),fonts={},geometry,view='result',timer,toastTimer;
+const $=id=>document.getElementById(id);const initial=()=>({text:'DigiFactory',font:'bagelfatone',material:'black',textColor:'#ffffff',lineGap:2,width:80,border:2.5,hole:4,decorations:[{shape:'flame',color:'#ff3a30',size:90,gap:1.5}]});let config=initial(),fonts={},geometry,view='result',timer,toastTimer;
 const palette=['#2f3a48','#5b60a8','#8c4292','#d5ff3f','#000000','#ffffff'];
 function toast(message){$('status').textContent=message;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('status').textContent='',4500);}
 function swatches(id,key){$(id).innerHTML=palette.map(c=>`<button type="button" data-color="${c}" style="background:${c}" aria-label="Choisir ${c}" title="${c}"></button>`).join('');$(id).addEventListener('click',e=>{const c=e.target.dataset.color;if(c){if(key==='text')config.textColor=c;else config.decorations[0].color=c;sync();render();}});}
