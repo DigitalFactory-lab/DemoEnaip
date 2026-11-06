@@ -1,7 +1,7 @@
 import {STICKER_MOTIFS} from './sticker-motifs.js';
 import opentype from 'opentype.js';
 import ClipperLib from 'clipper-lib';
-export const FONT_FILES={"bagelfatone": "assets/bagelfatone.ttf", "modak": "assets/modak.ttf", "bowlbyonesc": "assets/bowlbyonesc.ttf", "bricolagegrotesque": "assets/bricolagegrotesque.ttf"};
+export const FONT_FILES={"bagelfatone": "assets/bagelfatone.ttf", "modak": "assets/modak.ttf", "bowlbyonesc": "assets/bowlbyonesc.ttf", "bricolagegrotesque": "assets/bricolagegrotesque.ttf", "mogra": "assets/mogra.ttf", "delagothicone": "assets/delagothicone.ttf"};
 export const MATERIALS={white:{name:'Plexi blanc',fill:'#ffffff'},black:{name:'Plexi noir',fill:'#17191c'},wood:{name:'Bois clair',fill:'url(#material-wood)'}};
 export const MOTIFS={none:{name:'Aucun',d:''},...STICKER_MOTIFS};
 const S=1000;
