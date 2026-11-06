@@ -41,8 +41,8 @@ for(const item of config.decorations){
  if(position==='right'||position==='both'){right+=gap;placements.push(right);right+=w;}
  for(const x of placements){
   const contours=svgToContours(motif.d).map(p=>p.map(q=>({X:Math.round((q.X/S*w/100+x)*S),Y:Math.round((q.Y/S*w/100+y)*S)})));
-  solid.push(...offset(exteriors(contours),config.border));
-  art.push(`<g data-motif="${item.shape}" transform="translate(${x} ${y}) scale(${w/100})"><path d="${motif.d} ${motif.cutouts||''}" fill="${item.color}" fill-rule="evenodd"/>${motif.detail?`<path d="${motif.detail}" fill="${config.textColor}"/>`:''}</g>`);
+  solid.push(...offset(exteriors(contours),config.border+(motif.strokeWidth||0)*w/200));
+  art.push(`<g data-motif="${item.shape}" transform="translate(${x} ${y}) scale(${w/100})"><path d="${motif.d} ${motif.cutouts||''}" fill="${item.color}" stroke="${item.color}" stroke-width="${motif.strokeWidth||0}" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd"/>${motif.detail?`<path d="${motif.detail}" fill="${config.textColor}"/>`:''}</g>`);
  }
 }
 const hole={x:left-config.border-config.hole/2,y:textH/2,r:config.hole/2};solid.push(circle(hole.x,hole.y,hole.r+config.border));const connected=connect(solid,Math.max(2,config.border*1.5));const b=bounds(connected);return {outer:connected[0],art:art.join(''),hole,bounds:b,width:b.x2-b.x1,height:b.y2-b.y1,fontHeight:lineHeight};}
