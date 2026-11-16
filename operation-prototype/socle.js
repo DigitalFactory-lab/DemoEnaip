@@ -88,14 +88,14 @@ jours:[
 ],
 /* Prise de parole : les 8 étapes du pitch */
 pitch:[
- {t:'Accroche / ouverture',d:'Capter l’attention, poser le décor'},
- {t:'Le besoin du client',d:'Reformuler le brief (montre qu’on l’a compris)'},
- {t:'La réponse proposée',d:'Le projet, vue d’ensemble : voici ce qu’on a conçu pour vous'},
- {t:'La conception',d:'Le design, les choix, au service du besoin et du brief'},
- {t:'La fabrication',d:'Les choix de fabrication justifiés : pourquoi ce matériau, ce procédé, et pas un autre'},
- {t:'La démonstration',d:'Le prototype manipulé face caméra'},
- {t:'La conclusion',d:'Ce que ça apporte au client, pourquoi c’est la bonne réponse'},
- {t:'Montage / réalisation',d:'Assemblage des prises ; les choix (intro, fin, cohérence) validés en groupe',sansTexte:true}
+ {c:'Accroche',s:8,a:'« Imaginez… » ou « Et si… ? »',t:'Accroche / ouverture',d:'Capter l’attention, poser le décor'},
+ {c:'Besoin',s:12,a:'« Vous nous avez demandé… »',t:'Le besoin du client',d:'Reformuler le brief (montre qu’on l’a compris)'},
+ {c:'Réponse',s:12,a:'« Voici ce que nous avons conçu pour vous : … »',t:'La réponse proposée',d:'Le projet, vue d’ensemble : voici ce qu’on a conçu pour vous'},
+ {c:'Conception',s:14,a:'« Nous avons choisi cette forme parce que… »',t:'La conception',d:'Le design, les choix, au service du besoin et du brief'},
+ {c:'Fabrication',s:14,a:'« Nous l’avons fabriqué en… plutôt qu’en…, car… »',t:'La fabrication',d:'Les choix de fabrication justifiés : pourquoi ce matériau, ce procédé, et pas un autre'},
+ {c:'Démonstration',s:18,a:'« Regardez : il suffit de… »',t:'La démonstration',d:'Le prototype manipulé face caméra'},
+ {c:'Conclusion',s:12,a:'« Avec ce produit, vous gagnez… »',t:'La conclusion',d:'Ce que ça apporte au client, pourquoi c’est la bonne réponse'},
+ {c:'Montage',t:'Montage / réalisation',d:'Assemblage des prises ; les choix (intro, fin, cohérence) validés en groupe',sansTexte:true}
 ],
 pitchRetenir:'Chaque partie a un rôle précis. Ensemble, elles racontent une histoire claire, cohérente et orientée client.',
 /* Exercice final */
@@ -104,6 +104,9 @@ final:{accroche:'Proposer votre projet comme à un vrai client.',
   {t:'L’enjeu',p:'Vous allez produire une vidéo qui présente un de vos projets à un client.',l:['D’abord, vous élisez ensemble le projet le plus abouti.','Ensuite, vous devenez l’équipe qui le défend.']},
   {t:'Consignes client',p:'On s’adresse au client. On parle de son besoin, pas de nos machines.',l:['On explique pourquoi on a fait comme ça.','On justifie chaque choix.','On montre le prototype.','On parle bénéfices et valeur pour le client.']},
   {t:'La posture',p:'On ne présente pas son projet perso. On présente le projet de l’équipe, comme dans un vrai atelier ou une agence.',l:[]}],
+ dire:['On s’adresse au client.','On parle de son besoin.','On explique pourquoi on a fait comme ça.','On justifie chaque choix.','On montre le prototype.','On parle bénéfices et valeur pour le client.'],
+ eviter:['Parler de nos machines.','Présenter son projet perso.'],
+ posture:'On présente le projet de l’équipe, comme dans un vrai atelier ou une agence.',
  fortes:[['60 à 90','secondes'],['2 à 3','visuels image maximum'],['Le prototype','vrai support, montré caméra'],['Texte lu','au téléprompteur']],
  contraintes:['60 à 90 secondes','2 à 3 visuels image maximum','Le prototype : vrai support, montré caméra','Texte lu au téléprompteur'],
  objectif:['Montrer que notre solution répond exactement à votre besoin.','Que chaque choix a un sens.','Que cela vous apporte de la valeur.'],
