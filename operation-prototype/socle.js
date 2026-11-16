@@ -68,7 +68,7 @@ jours:[
   indices:['Quelle proposition répond le mieux au cahier des charges ?','Quel est le message principal pour le client ? Une seule phrase.','Que faut-il montrer à l’image pour rendre ce message convaincant ?'],
   robot:'Le client n’attend qu’un seul produit. À vous de choisir lequel, puis de préparer sa présentation.',
   fin:'Le produit officiel est choisi et son pitch est prêt. Demain, tournage.',
-  fixes:[{type:'outil',outil:'pitch',titre:'Constructeur de pitch',note:'Les 8 étapes de la prise de parole'}]}]},
+  fixes:[{type:'outil',outil:'pitch',titre:'Prise de parole',note:'Les 8 étapes du pitch, plus bas sur cette page'}]}]},
 {label:'Livraison',sous:'Présenter le résultat',titre:'Présenter. Livrer. Être fier.',resultat:'Une vidéo collective, votre objet personnel et un bilan des compétences.',humeur:'happy',sequences:[
  {titre:'Vidéo de présentation',
   mission:'Tournez la vidéo qui présente le produit officiel au client : 60 à 90 secondes, le prototype montré à la caméra.',
@@ -77,7 +77,7 @@ jours:[
   indices:['Faites d’abord une prise « pour rire » : elle fait tomber le trac.','Qu’est-ce que le client doit absolument retenir ?','Voix off, démonstration du prototype ou régie : chacun peut choisir un rôle qui lui convient.'],
   robot:'Dernière étape : montrer au client ce que vous avez accompli. Silence, on tourne.',
   fin:'La vidéo est dans la boîte. Cet après-midi : livraison et bilan.',
-  fixes:[{type:'outil',outil:'final',titre:'Exercice final',note:'Enjeu, consignes client, posture, contraintes'},{type:'outil',outil:'pitch',titre:'Texte du pitch',note:'À relire ou à copier pour le téléprompteur'}]},
+  fixes:[{type:'outil',outil:'final',titre:'Exercice final',note:'Enjeu, consignes, contraintes, plus bas sur cette page'},{type:'outil',outil:'pitchtexte',titre:'Texte du pitch',note:'À relire ou à copier pour le téléprompteur'}]},
  {titre:'Livraison & bilan des compétences',
   mission:'Livrez le produit au client, puis sortez du scénario pour mettre des mots sur ce que vous savez faire désormais.',
   livrable:'Votre objet, et la liste de vos compétences.',
