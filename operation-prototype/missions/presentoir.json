@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "id": "presentoir",
+  "objet": "Présentoir à lunettes",
+  "client": {"nom": "", "brief": "", "logo": ""},
+  "procedes": {"badge": "xtool", "scanner": false, "materiau": ""},
+  "code": "TASKFORCE",
+  "sequences": [
+    {"pieces": [
+      {"type": "image", "titre": "Mission — Reconstituer le cahier des charges", "note": "", "src": "https://digipad.s3.sbg.io.cloud.ovh.net/1601702/chatgpt-image-4-mai-2026-13_22_53_vqtd4hvyrmg.png"},
+      {"type": "image", "titre": "Plan socle V1", "note": "À corriger", "src": "https://digipad.s3.sbg.io.cloud.ovh.net/1601702/socle-v1_dxwqfnxt2h.jpg"},
+      {"type": "image", "titre": "Plan présentoir V1", "note": "", "src": "https://digipad.s3.sbg.io.cloud.ovh.net/1601702/plan-prasentoir-v1_6w00or9r5ew.png"},
+      {"type": "image", "titre": "Photo du projet validé", "note": "La référence", "src": "https://digipad.s3.sbg.io.cloud.ovh.net/1601702/chatgpt-image-4-mai-2026-13_36_29_z8wj5p1c3m.png"},
+      {"type": "image", "titre": "Vérification du plan", "note": "Le plan corrigé", "quand": "fin", "src": "https://digipad.s3.sbg.io.cloud.ovh.net/1601702/socle-v2_kri0dn6i65.jpg"}
+    ]},
+    {"pieces": [
+      {"type": "lien", "titre": "Générateur VCard", "note": "QR code pour le badge", "src": "https://portraitrobot2.netlify.app/"}
+    ]},
+    {"pieces": [
+      {"type": "image", "titre": "Exercice guidé : la brique", "note": "Plan coté à modéliser", "src": "https://digipad.s3.sbg.io.cloud.ovh.net/1601702/lego-dessin_tnej1zce9y.jpg"}
+    ]},
+    {"pieces": []}, {"pieces": []}, {"pieces": []}, {"pieces": []}, {"pieces": []}, {"pieces": []},
+    {"pieces": [
+      {"type": "lien", "titre": "Mon prototype de parcours", "note": "Photographie des intérêts", "src": "https://digitalfactory-lab.github.io/Mon-prototype-de-parcours/"}
+    ]}
+  ]
+}

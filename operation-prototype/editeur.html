@@ -1,0 +1,97 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Éditeur de mission — Opération Prototype</title><meta name="robots" content="noindex"><style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap');
+:root{--paper:#efece6;--ink:#2f3a48;--line:#2f3a4824;--dim:#687180;--accent:#5b60a8;--mono:'IBM Plex Mono',monospace;--sans:'Schibsted Grotesk',Arial,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 var(--sans)}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.mono{font:11px var(--mono);text-transform:uppercase;letter-spacing:.08em}
+header{position:sticky;top:0;z-index:5;background:var(--ink);color:#efede5;padding:12px 4%;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+header h1{font-size:15px;font-weight:600;margin:0 auto 0 0;letter-spacing:.02em}
+.btn{border:1px solid currentColor;background:transparent;padding:9px 13px;font:10px var(--mono);text-transform:uppercase;letter-spacing:.05em;display:inline-block;text-decoration:none;color:inherit}
+.btn.fill{background:#efede5;color:var(--ink);border-color:#efede5}.btn.dark{background:var(--ink);color:var(--paper)}
+main{max-width:980px;margin:0 auto;padding:34px 4% 90px}
+h2{font-weight:400;font-size:30px;letter-spacing:-.04em;margin:44px 0 6px}h2:first-child{margin-top:0}
+.help{color:var(--dim);font-size:13px;margin:0 0 18px;max-width:640px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label.f{display:block;font-size:12px;font-weight:500}label.f span{display:block;margin-bottom:5px}
+.field{width:100%;padding:9px 10px;border:1px solid #2f3a4855;background:#fff;font-size:14px}textarea.field{min-height:70px;resize:vertical}
+.check{display:flex;gap:9px;align-items:center;font-size:14px;padding-top:22px}
+.logo{display:flex;gap:12px;align-items:center}.logo img{width:64px;height:64px;object-fit:contain;background:#fff;border:1px solid var(--line)}
+details.seq{border:1px solid var(--line);margin-top:10px;background:#f6f4ee}
+details.seq>summary{padding:16px 18px;cursor:pointer;display:flex;gap:14px;align-items:center;list-style:none}
+details.seq>summary::-webkit-details-marker{display:none}
+details.seq>summary b{font-weight:500;flex:1}details.seq>summary .count{font:10px var(--mono);border:1px solid var(--line);padding:4px 7px;color:var(--dim)}
+details.seq>summary .count.has{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.body{padding:4px 18px 20px}
+.piece{display:grid;grid-template-columns:84px 1fr auto;gap:12px;align-items:start;padding:12px 0;border-top:1px solid var(--line)}
+.piece .thumb{width:84px;height:63px;background:var(--ink);color:#c6c8ee;display:grid;place-items:center;font:9px var(--mono);text-transform:uppercase;overflow:hidden}
+.piece .thumb img{width:100%;height:100%;object-fit:cover}
+.piece .fields{display:grid;grid-template-columns:1fr 1fr;gap:8px}.piece .fields .wide{grid-column:1/-1}
+.piece .tools{display:flex;gap:4px}.piece .tools button{border:1px solid var(--line);background:#fff;width:32px;height:32px}
+.add{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+details.txt{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}details.txt summary{cursor:pointer;font-size:13px;font-weight:500}
+details.txt .grid{margin-top:12px}
+.fixed{font-size:12px;color:var(--dim);margin:10px 0 0}
+.publish{border:1px solid var(--line);padding:20px;background:#fff;font-size:14px}.publish ol{padding-left:20px;margin:10px 0}.publish li{margin:6px 0}
+code{font:12px var(--mono);background:#e3e2ed;padding:2px 5px;word-break:break-all}
+#status{font:10px var(--mono);text-transform:uppercase;letter-spacing:.05em;opacity:.8}
+.warn{color:#a3324a}
+@media(max-width:640px){.grid,.piece .fields{grid-template-columns:1fr}.piece{grid-template-columns:60px 1fr}.piece .thumb{width:60px;height:45px}.piece .tools{grid-column:1/-1}}
+</style><script src="socle.js"></script></head><body>
+<header><h1>Éditeur de mission · Opération Prototype</h1><span id="status"></span><button class="btn" id="new">Nouvelle</button><label class="btn">Ouvrir un fichier<input type="file" id="open" accept=".json,application/json" hidden></label><button class="btn" id="preview">Aperçu ↗</button><button class="btn fill" id="export">Télécharger la mission</button></header>
+<main>
+<h2>Le projet</h2><p class="help">Ces quelques champs suffisent pour changer de sujet. Le scénario, les cinq journées, le pitch et l’exercice final restent identiques d’une édition à l’autre.</p>
+<div class="grid">
+<label class="f"><span>Objet à réaliser</span><input class="field" id="objet" placeholder="Présentoir à lunettes"></label>
+<label class="f"><span>Identifiant du fichier (sans espace)</span><input class="field" id="id" placeholder="presentoir"></label>
+<label class="f"><span>Nom du client</span><input class="field" id="cnom" placeholder="Optique Dupont"></label>
+<div class="f"><span style="display:block;margin-bottom:5px;font-size:12px;font-weight:500">Logo du client</span><div class="logo"><img id="logoimg" alt="" hidden><label class="btn dark">Choisir une image<input type="file" id="logo" accept="image/*" hidden></label><button class="btn" id="logodel" hidden>Retirer</button></div></div>
+<label class="f" style="grid-column:1/-1"><span>Brief du client, en une ou deux phrases</span><textarea class="field" id="cbrief" placeholder="Ce que le client attend du produit."></textarea></label>
+</div>
+<h2>Les procédés</h2><p class="help">Le parcours garde le même ordre : badge, modélisation, laser, impression UV, vidéo.</p>
+<div class="grid">
+<label class="f"><span>Jour 1 · fabrication du badge</span><select class="field" id="badge"><option value="xtool">Gravure xTool</option><option value="uv">Impression UV</option><option value="laser">Découpe ou gravure laser</option></select></label>
+<label class="f"><span>Jour 3 · matériau du laser (facultatif)</span><input class="field" id="materiau" placeholder="contreplaqué 3 mm"></label>
+<label class="check"><input type="checkbox" id="scanner"> Jour 2 · proposer aussi le scanner 3D</label>
+<label class="f"><span>Code de l’espace animation</span><input class="field" id="code" placeholder="TASKFORCE"></label>
+</div>
+<h2>Les pièces du dossier</h2><p class="help">Déposez dans chaque séquence ce que les stagiaires doivent voir ou utiliser : plans, photos, gabarits, liens vers un outil. Le robot les « récupère » à l’ouverture de la séquence.</p>
+<div id="seqs"></div>
+<h2>Publier</h2>
+<div class="publish"><ol><li>Cliquez sur <b>Télécharger la mission</b> : vous obtenez le fichier <code id="fname">mission.json</code>.</li><li>Sur GitHub, ouvrez le dossier <code>operation-prototype/missions</code> du dépôt, puis <b>Add file → Upload files</b> et déposez ce fichier.</li><li>Après une à deux minutes, la mission est en ligne à cette adresse :<br><code id="link"></code></li></ol><p class="help" style="margin:0">Pour modifier une mission existante, rouvrez son fichier avec « Ouvrir un fichier », corrigez, puis déposez-le de nouveau au même endroit. En salle, vous pouvez aussi charger le fichier directement depuis l’espace animation du site, sans passer par GitHub.</p><p id="size" class="help" style="margin:10px 0 0"></p></div>
+</main>
+<script>
+const S=window.SOCLE,$=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let m=S.missionVide(),idTouched=false,saveT;
+const norm=x=>{const b=S.missionVide();x=Object.assign(b,x||{});x.client=Object.assign({nom:'',brief:'',logo:''},x.client);x.procedes=Object.assign({badge:'xtool',scanner:false,materiau:''},x.procedes);x.sequences=Array.from({length:10},(_,i)=>Object.assign({pieces:[]},(x.sequences||[])[i]));x.sequences.forEach(s=>{if(!Array.isArray(s.pieces))s.pieces=[]});return x};
+function changed(){clearTimeout(saveT);$('#status').textContent='…';saveT=setTimeout(async()=>{try{await S.db.set('brouillon',m);$('#status').textContent='Brouillon enregistré'}catch(e){$('#status').textContent='Brouillon non enregistré'}},500);meta()}
+function meta(){const id=m.id||'mission';$('#fname').textContent=id+'.json';$('#link').textContent=location.href.replace(/editeur\.html.*$/,'')+'?mission='+id;const mb=JSON.stringify(m).length/1048576;$('#size').innerHTML=`Poids actuel du fichier : ${mb.toFixed(1)} Mo.`+(mb>20?' <span class="warn">Au-delà de 25 Mo, GitHub refuse le dépôt par le navigateur : retirez ou allégez des images.</span>':'')}
+function fill(){$('#objet').value=m.objet;$('#id').value=m.id;$('#cnom').value=m.client.nom;$('#cbrief').value=m.client.brief;$('#badge').value=m.procedes.badge;$('#materiau').value=m.procedes.materiau;$('#scanner').checked=!!m.procedes.scanner;$('#code').value=m.code==='TASKFORCE'?'':m.code;logoUi();renderAll();meta()}
+function logoUi(){const l=m.client.logo;$('#logoimg').hidden=!l;$('#logodel').hidden=!l;if(l)$('#logoimg').src=l}
+$('#objet').oninput=e=>{m.objet=e.target.value;if(!idTouched){m.id=S.slug(m.objet);$('#id').value=m.id}changed()};
+$('#id').oninput=e=>{idTouched=true;m.id=S.slug(e.target.value);changed()};$('#id').onblur=e=>e.target.value=m.id;
+$('#cnom').oninput=e=>{m.client.nom=e.target.value;changed()};$('#cbrief').oninput=e=>{m.client.brief=e.target.value;changed()};
+$('#badge').onchange=e=>{m.procedes.badge=e.target.value;changed()};$('#materiau').oninput=e=>{m.procedes.materiau=e.target.value;changed()};$('#scanner').onchange=e=>{m.procedes.scanner=e.target.checked;changed();renderAll()};
+$('#code').oninput=e=>{m.code=e.target.value.trim()||'TASKFORCE';changed()};
+/* Images : réduites à l'import pour garder un fichier léger */
+async function imageData(file,max,keepPng){try{const b=await createImageBitmap(file),k=Math.min(1,max/Math.max(b.width,b.height)),c=document.createElement('canvas');c.width=Math.round(b.width*k);c.height=Math.round(b.height*k);const x=c.getContext('2d');if(!keepPng){x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height)}x.drawImage(b,0,0,c.width,c.height);return c.toDataURL(keepPng?'image/png':'image/jpeg',.88)}catch(e){return rawData(file)}}
+const rawData=file=>new Promise((ok,ko)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=ko;r.readAsDataURL(file)});
+const nice=n=>n.replace(/\.[^.]+$/,'').replace(/[_-]+/g,' ').trim();
+$('#logo').onchange=async e=>{const f=e.target.files[0];if(!f)return;m.client.logo=await imageData(f,600,true);logoUi();changed();e.target.value=''};$('#logodel').onclick=()=>{m.client.logo='';logoUi();changed()};
+/* Séquences */
+function seqHtml(k){const j=k>>1,n=k&1,d=S.jours[j].sequences[n],o=m.sequences[k],sc=m.procedes.scanner&&d.missionScanner,T=sc?d.titreScanner:d.titre,Mi=sc?d.missionScanner:d.mission,np=o.pieces.length;
+ const piece=(p,i)=>`<div class="piece"><div class="thumb">${p.type==='image'?`<img src="${esc(p.src)}" alt="">`:esc(p.type)}</div><div class="fields"><input class="field" placeholder="Titre de la pièce" value="${esc(p.titre)}" data-k="${k}" data-i="${i}" data-f="titre" aria-label="Titre"><input class="field" placeholder="Précision (facultatif)" value="${esc(p.note)}" data-k="${k}" data-i="${i}" data-f="note" aria-label="Précision">${p.type==='lien'?`<input class="field wide" placeholder="https://…" value="${esc(p.src)}" data-k="${k}" data-i="${i}" data-f="src" aria-label="Adresse du lien">`:''}<select class="field wide" data-k="${k}" data-i="${i}" data-f="quand" aria-label="Moment d’apparition"><option value="">Visible dès l’ouverture de la séquence</option><option value="fin"${p.quand==='fin'?' selected':''}>Révélée quand la séquence est terminée (corrigé, solution)</option></select></div><div class="tools"><button data-act="up" data-k="${k}" data-i="${i}" aria-label="Monter">↑</button><button data-act="down" data-k="${k}" data-i="${i}" aria-label="Descendre">↓</button><button data-act="del" data-k="${k}" data-i="${i}" aria-label="Supprimer">✕</button></div></div>`;
+ const tf=(f,label,ph,area)=>`<label class="f"${area?' style="grid-column:1/-1"':''}><span>${label}</span>${area?`<textarea class="field" data-k="${k}" data-t="${f}" placeholder="${esc(ph)}">${esc(f==='etapes'?(o.etapes||[]).join('\n'):o[f]||'')}</textarea>`:`<input class="field" data-k="${k}" data-t="${f}" placeholder="${esc(ph)}" value="${esc(o[f]||'')}">`}</label>`;
+ return`<summary><span class="mono">Jour ${j+1} · ${n?'après-midi':'matin'}</span><b>${esc(o.titre||T)}</b><span class="count${np?' has':''}">${np} pièce${np>1?'s':''}</span></summary><div class="body">${o.pieces.map(piece).join('')}${d.fixes?`<p class="fixed">Déjà inclus par le site : ${d.fixes.map(f=>esc(f.titre)).join(', ')}.</p>`:''}<div class="add"><label class="btn dark">+ Images<input type="file" accept="image/*" multiple hidden data-add="image" data-k="${k}"></label><button class="btn" data-act="lien" data-k="${k}">+ Lien</button><label class="btn">+ Fichier à télécharger<input type="file" hidden data-add="fichier" data-k="${k}"></label></div><details class="txt"><summary>Adapter les textes de cette séquence (facultatif)</summary><p class="help" style="margin:8px 0 0">Laissez un champ vide pour garder le texte du site, affiché en gris.</p><div class="grid">${tf('titre','Titre',T)}${tf('livrable','À livrer',d.livrable)}${tf('mission','Phrase de mission',Mi,1)}${tf('etapes','Étapes à cocher, une par ligne',d.etapes.join('\n'),1)}${tf('robot','Réplique du robot à l’ouverture',d.robot,1)}${tf('fin','Réplique du robot quand tout est coché',d.fin,1)}${[0,1,2].map(h=>`<label class="f" style="grid-column:1/-1"><span>Indice ${h+1}</span><input class="field" data-k="${k}" data-h="${h}" placeholder="${esc(d.indices[h]||'')}" value="${esc((o.indices||[])[h]||'')}"></label>`).join('')}</div></details></div>`}
+function renderAll(){const open=[...document.querySelectorAll('details.seq')].map(d=>d.open),openT=[...document.querySelectorAll('details.txt')].map(d=>d.open);$('#seqs').innerHTML=Array.from({length:10},(_,k)=>`<details class="seq" data-seq="${k}">${seqHtml(k)}</details>`).join('');document.querySelectorAll('details.seq').forEach((d,i)=>d.open=!!open[i]);document.querySelectorAll('details.txt').forEach((d,i)=>d.open=!!openT[i])}
+function renderOne(k){const d=document.querySelector(`details.seq[data-seq="${k}"]`),t=d.querySelector('details.txt')?.open;d.innerHTML=seqHtml(k);if(t)d.querySelector('details.txt').open=true}
+const seqs=$('#seqs');
+seqs.addEventListener('input',e=>{const t=e.target,k=+t.dataset.k;if(t.dataset.f){m.sequences[k].pieces[+t.dataset.i][t.dataset.f]=t.value;changed()}else if(t.dataset.t){const f=t.dataset.t,v=t.value;if(f==='etapes'){const l=v.split('\n').map(x=>x.trim()).filter(Boolean);if(l.length)m.sequences[k].etapes=l;else delete m.sequences[k].etapes}else if(v.trim())m.sequences[k][f]=v;else delete m.sequences[k][f];changed()}else if(t.dataset.h){const a=m.sequences[k].indices||['','',''];a[+t.dataset.h]=t.value;if(a.some(x=>x.trim()))m.sequences[k].indices=a;else delete m.sequences[k].indices;changed()}});
+seqs.addEventListener('change',async e=>{const t=e.target;if(!t.dataset.add)return;const k=+t.dataset.k;for(const f of t.files){if(t.dataset.add==='image')m.sequences[k].pieces.push({type:'image',titre:nice(f.name),note:'',src:await imageData(f,2200,false)});else m.sequences[k].pieces.push({type:'fichier',titre:nice(f.name),note:'',nom:f.name,src:await rawData(f)})}renderOne(k);changed()});
+seqs.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const k=+b.dataset.k,i=+b.dataset.i,p=m.sequences[k].pieces,a=b.dataset.act;if(a==='lien')p.push({type:'lien',titre:'',note:'',src:''});else if(a==='del')p.splice(i,1);else if(a==='up'&&i>0)[p[i-1],p[i]]=[p[i],p[i-1]];else if(a==='down'&&i<p.length-1)[p[i+1],p[i]]=[p[i],p[i+1]];else return;renderOne(k);changed()});
+/* Fichiers */
+$('#export').onclick=()=>{if(!m.id){$('#objet').focus();$('#status').textContent='Indiquez d’abord l’objet';return}const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(m,null,1)],{type:'application/json'}));a.download=m.id+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)};
+$('#open').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{m=norm(JSON.parse(await f.text()));idTouched=true;fill();changed()}catch(err){$('#status').textContent='Fichier illisible'}e.target.value=''};
+$('#new').onclick=()=>{if(!confirm('Effacer le brouillon en cours et repartir d’une mission vide ?'))return;m=S.missionVide();idTouched=false;fill();changed()};
+$('#preview').onclick=async()=>{try{await S.db.set('apercu',m);window.open('index.html?apercu=1','_blank')}catch(e){$('#status').textContent='Aperçu indisponible dans ce navigateur'}};
+(async()=>{try{const b=await S.db.get('brouillon');if(b){m=norm(b);idTouched=!!m.id;$('#status').textContent='Brouillon repris'}}catch(e){}fill()})();
+</script></body></html>

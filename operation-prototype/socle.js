@@ -1,0 +1,121 @@
+/* Opération Prototype — socle commun au site et à l'éditeur de mission.
+   Tout ce qui est ici reste valable quel que soit le projet.
+   [OBJET], [CLIENT], [BADGE] et [MATERIAU] sont remplacés par les valeurs de la mission. */
+window.SOCLE={
+version:1,
+horaires:['8h30 — 12h00','12h30 — 16h00'],
+badges:{xtool:'gravure xTool',uv:'impression UV',laser:'découpe ou gravure laser'},
+intro:'Cette nuit, nos serveurs ont été piratés. Les fichiers finaux du projet [OBJET] ont disparu. Nous avons cinq jours pour le reconstruire et garder la confiance de [CLIENT]. Prêts ?',
+jours:[
+{label:'Accréditation',sous:'Comprendre la mission',titre:'Reconstituer. Puis entrer.',resultat:'Un cahier des charges reconstitué et un badge nominatif.',humeur:'alert',sequences:[
+ {titre:'Cellule de crise & jeu des 7 erreurs',
+  mission:'Le plan V1 du projet [OBJET] a survécu au piratage, mais il contient sept erreurs. Retrouvez-les et reconstituez le cahier des charges.',
+  livrable:'Le cahier des charges du projet, validé par le groupe.',
+  etapes:['Comparer le plan V1 avec la référence','Repérer les sept erreurs en équipe','Mettre en commun au tableau','Rédiger le cahier des charges corrigé'],
+  indices:['Commencez par les dimensions : toutes les cotes sont-elles réalistes par rapport à l’objet réel ?','Regardez comment les pièces s’assemblent. Peuvent-elles vraiment s’emboîter comme sur le plan ?','Comptez les éléments et vérifiez les matériaux annoncés : le plan et la référence disent-ils la même chose ?'],
+  robot:'J’ai récupéré un fragment : le plan V1 du projet [OBJET]. Il me semble corrompu. Sept erreurs s’y cachent, à vous de les trouver.',
+  fin:'Le cahier des charges est reconstitué. Depuis le piratage, la sécurité a été renforcée : impossible d’entrer dans l’atelier sans badge d’accréditation.'},
+ {titre:'Badge d’accréditation',
+  mission:'On n’entre plus dans l’atelier sans accréditation. Concevez votre badge nominatif, puis fabriquez-le. Procédé de cette édition : [BADGE].',
+  livrable:'Votre badge personnel, fabriqué.',
+  etapes:['Choisir ce qui vous représente : texte, symbole ou les deux','Créer le visuel du badge','Faire vérifier le fichier','Fabriquer le badge à la machine'],
+  indices:['Un badge lisible tient en peu d’éléments : un nom et un symbole suffisent.','Si vous utilisez l’IA, décrivez précisément ce que vous voulez : forme, style, texte exact.','Testez une première version, même imparfaite. Vous l’améliorerez ensuite.'],
+  robot:'Contrôle d’accès activé. Chaque membre de la Task Force doit fabriquer son badge d’accréditation.',
+  fin:'Accréditations validées. Demain, nous passons à la modélisation.'}]},
+{label:'Modélisation',sous:'Passer au volume',titre:'Du plan au volume.',resultat:'Un fichier 3D vérifié, prêt pour la fabrication.',humeur:'curious',sequences:[
+ {titre:'Prise en main : exercice guidé',
+  mission:'Avant de recréer la pièce du projet [OBJET], prenez l’outil en main avec un exercice guidé, pas à pas.',
+  livrable:'L’exercice guidé terminé.',
+  etapes:['Ouvrir le logiciel et repérer l’espace de travail','Dessiner une esquisse cotée','Donner du volume à l’esquisse','Vérifier les dimensions'],
+  indices:['Une forme 3D commence presque toujours par un dessin à plat : l’esquisse.','Les cotes pilotent la forme. Modifiez une cote et observez ce qui change.','On a le droit de se tromper : annulez et recommencez, c’est la méthode normale.'],
+  robot:'Mes archives 3D sont vides. Avant de reconstruire la pièce, entraînons-nous sur un exercice guidé.',
+  fin:'Les bases sont là. Cet après-midi, vous créez la pièce du projet.'},
+ {titre:'Création de la pièce',titreScanner:'Création ou numérisation de la pièce',
+  mission:'Modélisez la pièce du projet [OBJET] en respectant le cahier des charges, puis faites-la valider avant fabrication.',
+  missionScanner:'Modélisez la pièce du projet [OBJET] ou numérisez-la au scanner 3D, selon votre groupe. Faites-la ensuite valider avant fabrication.',
+  livrable:'Un fichier vérifié : dimensions, qualité, faisabilité.',
+  etapes:['Créer la pièce à partir du cahier des charges','Contrôler les dimensions','Passer la validation client','Préparer le fichier pour la fabrication'],
+  indices:['Reprenez les mesures du cahier des charges avant de dessiner.','Quel format de fichier demande la suite du projet ?','Pour réduire le temps de fabrication, cherchez ce qu’on peut alléger sans fragiliser la pièce.'],
+  robot:'À vous de recréer la pièce manquante. Je vérifierai les dimensions avec le client.',
+  fin:'Les fichiers sont prêts. Demain, place au laser.'}]},
+{label:'Découpe laser',sous:'Construire la structure',titre:'Tester. Ajuster. Assembler.',resultat:'Une version fonctionnelle du projet [OBJET], assemblée.',humeur:'focus',sequences:[
+ {titre:'Conception & tolérances',
+  mission:'Dessinez les pièces à découper et leurs points d’assemblage. Le laser enlève de la matière : prévoyez le jeu et testez avant de tout découper. Matériau de cette édition : [MATERIAU].',
+  livrable:'Des fichiers de découpe prêts et un test d’ajustement réussi.',
+  etapes:['Dessiner les pièces en 2D','Prévoir les assemblages et le jeu','Découper une pièce test','Corriger le fichier si nécessaire'],
+  indices:['Le trait de coupe a une épaisseur : c’est le kerf. Il modifie légèrement chaque dimension.','Trop serré, ça ne rentre pas. Trop lâche, ça ne tient pas. Un petit test répond vite à la question.','Faites votre test sur une chute plutôt que sur votre plaque.'],
+  robot:'Le laser est précis, mais il enlève de la matière. Un test d’emboîtement vous évitera de gaspiller une plaque.',
+  fin:'Les fichiers sont prêts. Cet après-midi, on découpe et on assemble.'},
+ {titre:'Fabrication & tests d’assemblage',
+  mission:'Découpez vos pièces, assemblez votre prototype et vérifiez qu’il remplit sa fonction.',
+  livrable:'Votre version du projet [OBJET], montée.',
+  etapes:['Découper les pièces','Assembler','Tester la tenue et la fonction','Noter les ajustements à faire'],
+  indices:['Un ajustement à refaire vous renseigne sur votre fichier : notez-le.','Le prototype remplit-il sa fonction ? Essayez-le en situation réelle.','Si l’assemblage a du jeu, quelle liaison pourrait le renforcer ?'],
+  robot:'Fabrication lancée. Je surveille les assemblages.',
+  fin:'Le produit prend forme. Demain, il prend les couleurs du client.'}]},
+{label:'Identité & choix',sous:'Défendre ses choix',titre:'Signer le produit. Choisir ensemble.',resultat:'Des objets personnalisés, un produit officiel choisi et un pitch préparé.',humeur:'happy',sequences:[
+ {titre:'Personnalisation UV & finitions',
+  mission:'Personnalisez votre prototype aux couleurs de [CLIENT] : logo, texte ou pictogrammes, imprimés en UV.',
+  livrable:'Votre objet personnalisé, avec une finition soignée.',
+  etapes:['Préparer le logo et les éléments du client','Vérifier taille, emplacement et contraste','Faire valider avant impression','Imprimer et contrôler la finition'],
+  indices:['Où l’identité du client sera-t-elle la plus lisible ?','Vérifiez l’échelle : mesurez la zone d’impression sur votre objet.','Que manque-t-il pour que l’objet ait l’air d’un produit fini ?'],
+  robot:'Votre prototype devient un produit. Il lui faut l’identité du client.',
+  fin:'Les versions sont finalisées. Le groupe peut choisir le produit officiel.'},
+ {titre:'Concours & préparation du pitch',
+  mission:'Présentez votre version en une minute, votez pour le produit officiel, puis préparez ensemble le pitch destiné au client.',
+  livrable:'Un produit officiel choisi et un pitch écrit, répété une première fois.',
+  etapes:['Présenter sa version en une minute','Voter pour le produit officiel','Écrire le pitch avec le constructeur','Répartir les rôles et répéter'],
+  indices:['Quelle proposition répond le mieux au cahier des charges ?','Quel est le message principal pour le client ? Une seule phrase.','Que faut-il montrer à l’image pour rendre ce message convaincant ?'],
+  robot:'Le client n’attend qu’un seul produit. À vous de choisir lequel, puis de préparer sa présentation.',
+  fin:'Le produit officiel est choisi et son pitch est prêt. Demain, tournage.',
+  fixes:[{type:'outil',outil:'pitch',titre:'Constructeur de pitch',note:'Les 8 étapes de la prise de parole'}]}]},
+{label:'Livraison',sous:'Présenter le résultat',titre:'Présenter. Livrer. Être fier.',resultat:'Une vidéo collective, votre objet personnel et un bilan des compétences.',humeur:'happy',sequences:[
+ {titre:'Vidéo de présentation',
+  mission:'Tournez la vidéo qui présente le produit officiel au client : 60 à 90 secondes, le prototype montré à la caméra.',
+  livrable:'Une vidéo collective, validée par le groupe.',
+  etapes:['Relire les consignes de l’exercice final','Répartir les rôles : présentation, démonstration, régie','Faire une prise d’essai','Tourner, puis visionner ensemble'],
+  indices:['Faites d’abord une prise « pour rire » : elle fait tomber le trac.','Qu’est-ce que le client doit absolument retenir ?','Voix off, démonstration du prototype ou régie : chacun peut choisir un rôle qui lui convient.'],
+  robot:'Dernière étape : montrer au client ce que vous avez accompli. Silence, on tourne.',
+  fin:'La vidéo est dans la boîte. Cet après-midi : livraison et bilan.',
+  fixes:[{type:'outil',outil:'final',titre:'Exercice final',note:'Enjeu, consignes client, posture, contraintes'},{type:'outil',outil:'pitch',titre:'Texte du pitch',note:'À relire ou à copier pour le téléprompteur'}]},
+ {titre:'Livraison & bilan des compétences',
+  mission:'Livrez le produit au client, puis sortez du scénario pour mettre des mots sur ce que vous savez faire désormais.',
+  livrable:'Votre objet, et la liste de vos compétences.',
+  etapes:['Diffuser la vidéo et livrer le produit','Sortir du jeu de rôle','Relier chaque étape à une compétence','Dire comment présenter sa réalisation à un employeur'],
+  indices:['Quelle compétence pourra vous servir dans un autre métier ?','Quel outil numérique avez-vous découvert cette semaine ?','Comment présenteriez-vous votre réalisation à un employeur ?'],
+  robot:'Mission presque terminée. Il reste à livrer, puis à faire le point sur vos compétences.',
+  fin:'Mission terminée : le projet est livré et le client rassuré. Bravo à la Task Force.'}]}
+],
+/* Prise de parole : les 8 étapes du pitch */
+pitch:[
+ {t:'Accroche / ouverture',d:'Capter l’attention, poser le décor'},
+ {t:'Le besoin du client',d:'Reformuler le brief (montre qu’on l’a compris)'},
+ {t:'La réponse proposée',d:'Le projet, vue d’ensemble : voici ce qu’on a conçu pour vous'},
+ {t:'La conception',d:'Le design, les choix, au service du besoin et du brief'},
+ {t:'La fabrication',d:'Les choix de fabrication justifiés : pourquoi ce matériau, ce procédé, et pas un autre'},
+ {t:'La démonstration',d:'Le prototype manipulé face caméra'},
+ {t:'La conclusion',d:'Ce que ça apporte au client, pourquoi c’est la bonne réponse'},
+ {t:'Montage / réalisation',d:'Assemblage des prises ; les choix (intro, fin, cohérence) validés en groupe',sansTexte:true}
+],
+/* Exercice final */
+final:{accroche:'Proposer votre projet comme à un vrai client.',
+ blocs:[
+  {t:'L’enjeu',p:'Vous allez produire une vidéo qui présente un de vos projets à un client.',l:['D’abord, vous élisez ensemble le projet le plus abouti.','Ensuite, vous devenez l’équipe qui le défend.']},
+  {t:'Consignes client',p:'On s’adresse au client. On parle de son besoin, pas de nos machines.',l:['On explique pourquoi on a fait comme ça.','On justifie chaque choix.','On montre le prototype.','On parle bénéfices et valeur pour le client.']},
+  {t:'La posture',p:'On ne présente pas son projet perso. On présente le projet de l’équipe, comme dans un vrai atelier ou une agence.',l:[]}],
+ contraintes:['60 à 90 secondes','2 à 3 visuels image maximum','Le prototype : vrai support, montré caméra','Texte lu au téléprompteur'],
+ objectif:['Montrer que notre solution répond exactement à votre besoin.','Que chaque choix a un sens.','Que cela vous apporte de la valeur.'],
+ retenir:'Court. Clair. Concret. On montre. On explique. On parle bénéfices client.'},
+missionVide(){return{version:1,id:'',objet:'',client:{nom:'',brief:'',logo:''},procedes:{badge:'xtool',scanner:false,materiau:''},code:'TASKFORCE',sequences:Array.from({length:10},()=>({pieces:[]}))}},
+slug(s){return(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40)},
+/* Fusionne la mission avec le socle : renvoie les 5 jours prêts à afficher */
+composer(m){m=m||this.missionVide();const p=m.procedes||{};const obj=m.objet?'« '+m.objet+' »':'en cours';const cli=(m.client&&m.client.nom)||'notre client';
+ const rep=s=>(s||'').replaceAll('[OBJET]',obj).replaceAll('[CLIENT]',cli).replaceAll('[BADGE]',this.badges[p.badge]||this.badges.xtool).replaceAll(' Matériau de cette édition : [MATERIAU].',p.materiau?' Matériau de cette édition : '+p.materiau+'.':'');
+ return{objet:m.objet||'',client:cli,brief:(m.client&&m.client.brief)||'',logo:(m.client&&m.client.logo)||'',code:m.code||'TASKFORCE',id:m.id||'sans-nom',intro:rep(this.intro),
+ jours:this.jours.map((j,ji)=>({...j,resultat:rep(j.resultat),sequences:j.sequences.map((s,si)=>{const o=(m.sequences||[])[ji*2+si]||{};const sc=p.scanner&&s.missionScanner;
+  return{titre:o.titre||(sc?s.titreScanner:s.titre),mission:rep(o.mission||(sc?s.missionScanner:s.mission)),livrable:rep(o.livrable||s.livrable),etapes:(o.etapes&&o.etapes.length?o.etapes:s.etapes).map(rep),indices:(o.indices&&o.indices.some(Boolean)?o.indices.filter(Boolean):s.indices).map(rep),robot:rep(o.robot||s.robot),fin:rep(o.fin||s.fin),pieces:[...(o.pieces||[]),...(s.fixes||[])]}})}))}},
+/* Petit stockage local (aperçu et brouillon de l'éditeur) */
+db:{open(){return new Promise((ok,ko)=>{const r=indexedDB.open('operation-prototype',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>ok(r.result);r.onerror=()=>ko(r.error)})},
+ async set(k,v){const d=await this.open();return new Promise((ok,ko)=>{const t=d.transaction('kv','readwrite');t.objectStore('kv').put(v,k);t.oncomplete=ok;t.onerror=()=>ko(t.error)})},
+ async get(k){const d=await this.open();return new Promise((ok,ko)=>{const r=d.transaction('kv').objectStore('kv').get(k);r.onsuccess=()=>ok(r.result);r.onerror=()=>ko(r.error)})}}
+};
